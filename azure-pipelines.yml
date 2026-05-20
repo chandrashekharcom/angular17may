@@ -34,11 +34,11 @@ steps:
     ArtifactName: 'drop'
     publishLocation: 'Container'
 
-- task: AzureWebApp@1
-  displayName: 'Deploy to Azure Web App'
-  inputs:
-    azureSubscription: 'azure-Demo-Conn'
-    appType: 'webApp'
-    appName: 'angularapp101'
-    package: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
-    deploymentMethod: 'zipDeploy'
+# - task: AzureWebApp@1
+#   displayName: 'Deploy to Azure Web App'
+#   inputs:
+#     azureSubscription: 'azure-Demo-Conn'
+#     appType: 'webApp'
+#     appName: 'angularapp101'
+#     package: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+#     deploymentMethod: 'zipDeploy'
