@@ -16,8 +16,8 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
-    ng run build --prod
-  displayName: 'npm install and build'
+   npm run build -- --configuration production
+   displayName: 'Build Angular Application'
 - task: ArchiveFiles@2
   inputs:
     rootFolderOrFile: '$(System.DefaultWorkingDirectory)/dist/browser'
