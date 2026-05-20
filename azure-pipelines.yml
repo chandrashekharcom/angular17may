@@ -1,11 +1,9 @@
-# Node.js with Angular
-# Build a Node.js project that uses Angular.
-
 trigger:
 - main
 
 pool:
   vmImage: windows-latest
+
 
 steps:
 - task: NodeTool@0
@@ -13,14 +11,20 @@ steps:
     versionSpec: '20.x'
   displayName: 'Install Node.js'
 
+# Separating this ensures clean dependency tracking
 - script: |
     npm ci
+  displayName: 'Install Dependencies (npm ci)'
+
+# Isolating the build ensures it actually runs completely before moving forward
+- script: |
     npm run build -- --configuration production
-  displayName: 'npm install and build'
+  displayName: 'Build Angular Application'
 
 - task: ArchiveFiles@2
   displayName: 'Archive files'
   inputs:
+    # Your angular.json maps perfectly to this path
     rootFolderOrFile: '$(System.DefaultWorkingDirectory)/dist/browser'
     includeRootFolder: false
     archiveType: 'zip'
@@ -33,12 +37,3 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
     publishLocation: 'Container'
-
-# - task: AzureWebApp@1
-#   displayName: 'Deploy to Azure Web App'
-#   inputs:
-#     azureSubscription: 'azure-Demo-Conn'
-#     appType: 'webApp'
-#     appName: 'angularapp101'
-#     package: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
-#     deploymentMethod: 'zipDeploy'
