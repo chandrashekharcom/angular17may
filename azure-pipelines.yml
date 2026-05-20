@@ -37,3 +37,10 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
     publishLocation: 'Container'
+- task: AzureWebApp@1
+  inputs:
+    azureSubscription: 'Azure subscription 1(1)(435e0277-cd0d-4af4-bdbe-d154a3599819)'
+    appType: 'webApp'
+    appName: 'webappangular'
+    package: '$(Build.ArtifactStagingDirectory)/**/*.zip'
+    deploymentMethod: 'auto'
