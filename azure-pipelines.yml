@@ -2,8 +2,7 @@ trigger:
 - main
 
 pool:
-  vmImage: windows-latest
-
+  vmImage: 'windows-latest'
 
 steps:
 - task: NodeTool@0
@@ -16,7 +15,7 @@ steps:
     npm ci
   displayName: 'Install Dependencies (npm ci)'
 
-# Isolating the build ensures it actually runs completely before moving forward
+# Isolating the build ensures it runs completely before moving forward
 - script: |
     npm run build -- --configuration production
   displayName: 'Build Angular Application'
@@ -24,7 +23,6 @@ steps:
 - task: ArchiveFiles@2
   displayName: 'Archive files'
   inputs:
-    # Your angular.json maps perfectly to this path
     rootFolderOrFile: '$(System.DefaultWorkingDirectory)/dist/browser'
     includeRootFolder: false
     archiveType: 'zip'
@@ -37,10 +35,13 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
     publishLocation: 'Container'
+
 - task: AzureWebApp@1
+  displayName: 'Deploy to Azure Web App'
   inputs:
     azureSubscription: 'Azure subscription 1(1)(625ce2b7-370d-4af7-9bee-bcceae4ca23b)'
     appType: 'webApp'
     appName: 'webappangular'
-    package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    # FIX: Point directly to where the ArchiveFiles task saved the zip
+    package: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
     deploymentMethod: 'auto'
