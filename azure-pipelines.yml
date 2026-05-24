@@ -39,8 +39,8 @@ steps:
     publishLocation: 'Container'
 - task: AzureWebApp@1
   inputs:
-    azureSubscription: 'Azure subscription 1(625ce2b7-370d-4af7-9bee-bcceae4ca23b)'
+    azureSubscription: 'Azure subscription 1(1)(625ce2b7-370d-4af7-9bee-bcceae4ca23b)'
     appType: 'webApp'
-    appName: 'webappangular101'
-    package: '$(Build.ArtifactStagingDirectory)/**/*.zip'
+    appName: 'webappangular'
+    package: '$(System.DefaultWorkingDirectory)/**/*.zip'
     deploymentMethod: 'auto'
